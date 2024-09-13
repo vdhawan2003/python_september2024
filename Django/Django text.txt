@@ -1,0 +1,170 @@
+https://pythonguides.com/how-to-install-django/
+
+--------------------------------------------------------
+0. Set-ExecutionPolicy RemoteSigned -Scope process
+
+1. python -m venv my_venv 				---->Folder name 
+2. my_venv\Scripts\activate			---->
+3. pip install django mysqlclient	
+4. django-admin startproject skilldev
+5. cd skilldev
+6. python magage.py runserver
+7. Clcik on the link
+----------------------------------------------------------
+
+
+
+
+1. Django Setup / Installation 
+You will need to install Django and mysqlclient if not already installed. 
+>>pip install django mysqlclient 
+ 
+2. Django Project Setup 
+To create a Django project called myproject, run: 
+ 
+>>django-admin startproject myproject 
+ 
+3. Django App Setup 
+To create the employees app inside your project: 
+ 
+>>cd myproject 
+python manage.py startapp employees 
+
+
+4. Department and Employee Models 
+In employees/models.py, define the Department and Employee models, incorporating the ForeignKey relationship between them:
+
+# Create your models here. 
+from django.db import models 
+ 
+class Department(models.Model): 
+    name = models.CharField(max_length=255) 
+    def __str__(self): 
+        return self.name     
+class Employee(models.Model): 
+   name = models.CharField(max_length=255) 
+ 	dept = models.ForeignKey(Department, on_delete=models.CASCADE) 
+ 	job_title = models.CharField(max_length=255) 
+ 	salary = models.DecimalField(max_digits=10, decimal_places=2) 
+ 	bonus = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True) 
+   def __str__(self): 
+		return f'{self.name} - {self.job_title}' 
+
+
+
+Explanation of Changes: 
+Department Model: 
+	Contains only a name field (CharField) for the department's name. 
+
+Employee Model: 
+	name: The employee's name. 
+	dept: A foreign key pointing to the Department model. When a department is 	deleted, all associated employees will be deleted (on_delete=models.CASCADE). 
+	job_title: The employee's job title. 
+	salary: The employee's salary using a DecimalField. 
+	bonus: An optional bonus field (null=True, blank=True).
+
+
+
+
+
+5. Database Setup with MySQL 
+Configure your MySQL database in myproject/settings.py:
+
+INSTALLED_APPS = [ 
+   . . . .  
+    'employees', 
+] 
+ 
+DATABASES = { 
+'default': { 
+'ENGINE': 'django.db.backends.mysql',
+
+'NAME': 'djangotest', # Your MySQL database name 
+'USER': 'root', 
+'PASSWORD': 'password', 
+'HOST': 'localhost', 
+'PORT': '3306', 
+} 
+} 
+
+
+After setting up the models and MySQL, run the migrations to create the necessary database tables: 
+ 
+D:\Training\Django\myproject> python manage.py makemigrations  
+D:\Training\Django\myproject> python manage.py migrate
+
+
+
+6. Django Python Shell 
+The Django shell allows you to interact with models directly. You can access it using: 
+python manage.py shell 
+ 
+7. Employee and Department CRUD Operations 
+You can perform CRUD operations on the Department and Employee models using Django's ORM. Execute the following in Shell:
+
+#Create Department: 
+----------------------------------------- 
+from employees.models import Department 
+ 
+hr_dept = Department(name="Human Resources") 
+hr_dept.save() 
+ 
+it_dept = Department(name="Information Technology") 
+it_dept.save() 
+-----------------------------------------
+
+
+#Create Employee:
+----------------------------------------- 
+from employees.models import Employee, Department 
+ 
+# Assigning an employee to the HR department 
+hr_dept = Department.objects.get(name="Human Resources") 
+employee1 = Employee(name="John Doe", dept=hr_dept, job_title="HR Manager", salary=50000.00) 
+employee1.save() 
+ 
+# Assigning an employee to the IT department 
+it_dept = Department.objects.get(name="Information Technology") 
+employee2 = Employee(name="Jane Smith", dept=it_dept, job_title="Software Engineer", salary=75000.00, 
+bonus=5000.00) 
+employee2.save() 
+
+
+
+
+#Read Employees and Their Departments: 
+-----------------------------------------
+employees = Employee.objects.all() 
+for employee in employees: 
+    print(f"Name: {employee.name}, Job Title: {employee.job_title}, Department: {employee.dept.name}")
+
+-----------------------------------------
+
+
+#Update Employee's Department: 
+-----------------------------------------
+employee = Employee.objects.get(name="John Doe") 
+it_dept = Department.objects.get(name="Information Technology") 
+employee.dept = it_dept 
+employee.save() 
+
+
+
+#Delete Employee: 
+-----------------------------------------
+employee = Employee.objects.get(name="Jane Smith") 
+employee.delete() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

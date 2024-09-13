@@ -1,0 +1,48 @@
+<html>
+    <title>Examples</title>
+    <head>
+        <script type="text/javascript">
+            function displaymessage()
+            {
+                alert("Hello World!")
+            }
+            function prod(a,b)
+            {
+                x = a*b
+                return x
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Examples 1</h1>
+        <script type="text/javascript">
+            //Write a "Good morning" greeting if the time is less than 10
+            var d=new Date(); 
+            var time=d.getHours(); 
+            if(time<10)
+        {
+            document.write("<b>Good Morning</b>");
+        }
+        else
+            document.write("<b>Good Afernoon</b>");
+        </script>
+        <h1>Example 2</h1>
+        <script type="text/javascript">
+            var i=0;
+            for(i=0;i<=10;i++)
+        {
+            document.write("The number is" + i);
+            document.write("<br/>");
+        }
+        </script>
+        <h1>Example 3</h1>
+        <form> 
+            <input type="button" value="Click me!" onclick="displaymessage()">
+        </form>
+        <h1>Example 4</h1>
+        <script type="text/javascript">
+            product = prod(2,3)
+            document.write(product)
+        </script>
+    </body>
+</html>
